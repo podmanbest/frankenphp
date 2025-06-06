@@ -1,61 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# FrankenPHP and Laravel Octane with Docker + Laravel 11 & Laravel 12
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This repo is a docker boilerplate to use for Laravel projects. Containers included in this docker:
 
-## About Laravel
+1. [Laravel 11 & 12](https://laravel.com/docs/)
+2. [FrankenPHP](https://frankenphp.dev/docs/docker/)
+3. MySQL
+4. Redis
+5. Supervisor
+6. [Octane](https://laravel.com/docs/octane)
+7. Minio for S3
+8. MailPit
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+The purpose of this repo is to run [Laravel 11 & Laravel 12](https://laravel.com/docs/) in a Docker container using [Octane](https://laravel.com/docs/octane) and [FrankenPHP](https://frankenphp.dev/docs/docker/).
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Installation
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Use the package manager [git](https://git-scm.com/downloads) to install Docker boilerplate.
 
-## Learning Laravel
+```bash
+# setup project locally
+$ git clone https://github.com/jaygaha/laravel-11-frankenphp-docker.git
+# Navigate to project directory:
+$ cd laravel-11-frankenphp-docker
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## Application Setup
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+Copy the .env.example file to .env:
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+```bash
+# Linux
+$ cp .env.example .env
+# OR
+# Windows
+$ copy .env.example .env
+```
 
-## Laravel Sponsors
+Edit the `.env` file to configure your application settings. At a minimum, you should set the following variables:
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+- `APP_NAME`: The name of your application.
+- `APP_ENV`: The environment your application is running in (e.g., local, production).
+- `APP_KEY`: The application key (will be generated in the next step).
+- `APP_DEBUG`: Set to `true` for debugging.
+- `APP_URL`: The URL of your application.
+- `DB_CONNECTION`: The database connection (e.g., mysql).
+- `DB_HOST`: The database host.
+- `DB_PORT`: The database port.
+- `DB_DATABASE`: The database name.
+- `DB_USERNAME`: The database username.
+- `DB_PASSWORD`: The database password.
 
-### Premium Partners
+**Edit docker related setting according to your preferences.**
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+Run composer to install the required packages:
+
+```bash
+# install required packages
+$ composer install
+```
+
+Generate a new application key:
+
+```bash
+# app key setup
+$ php artisan key:generate
+```
+
+## Usage
+
+Build the Docker images:
+
+```bash
+# build docker images
+$ docker compose build
+```
+
+Run the containers:
+
+```bash
+# Run containers
+$ docker compose up -d
+```
+
+To stop the containers, run:
+
+```bash
+# Stop containers
+$ docker compose down
+```
+
+To view the logs of a specific container, run:
+
+```bash
+# View logs
+$ docker compose logs <container_name>
+```
+
+**If you are using podman replace `docker` with `podman`**
+
+To access the application, open your browser and navigate to the URL specified in the `APP_URL` variable in your `.env` file.
+
+
+## Upgrading
+
+Upgrading To 12.0 From 11.x
+
+```bash
+$ composer update
+```
 
 ## Contributing
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+FREE TO USE
+
+### Happy Coding :)
