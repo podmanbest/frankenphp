@@ -1,3 +1,2 @@
+*-database
 *.sqlite*
-mysql-database/*
-redis-database/*
