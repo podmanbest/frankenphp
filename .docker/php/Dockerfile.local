@@ -35,10 +35,7 @@ COPY ./.docker/etc/supervisor.d/supervisord.conf /etc/supervisor/conf.d/supervis
 RUN pecl install xdebug
 
 # Install Laravel dependencies using Composer.
-RUN composer install && \
-    composer require laravel/octane && \
-    composer clear-cache && \
-    composer dump-autoload --optimize
+RUN composer install 
 
 # Enable Xdebug.
 RUN docker-php-ext-enable xdebug

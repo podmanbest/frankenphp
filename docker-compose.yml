@@ -2,18 +2,18 @@
 name: lara9
 services:
     web:
+        container_name: web
         build:
             context: ./
             dockerfile: ./.docker/php/Dockerfile.local
-        container_name: lara12-web
         ports:
             - ${APP_PORT:-8000}:8000
             - ${VITE_PORT:-5173}:${VITE_PORT:-5173}
         volumes:
-            - ./:${WORKDIR}
-            - ./vendor/:${WORKDIR}/vendor
+            - ./:${WORKDIR}:Z
+            - ./vendor/:${WORKDIR}/vendor:Z
         networks:
-            - lara12net
+            - laranet
         depends_on:
             - mysql
             - redis
@@ -32,9 +32,9 @@ services:
             MYSQL_PASSWORD: ${DB_PASSWORD}
             MYSQL_ALLOW_EMPTY_PASSWORD: 1
         volumes:
-            - ${DB_VOLUME_LOCAL:-./database/mysql-test-data}:/var/lib/mysql
+            - ${DB_VOLUME_LOCAL:-./database/mysql-test-data}:/var/lib/mysql:Z
         networks:
-            - lara12net
+            - laranet
         healthcheck:
             test:
                 - CMD
@@ -49,9 +49,9 @@ services:
         ports:
             - ${FORWARD_REDIS_PORT:-6379}:6379
         volumes:
-            - ${REDIS_VOLUME_LOCAL:-./database/redis-data}:/data
+            - ${REDIS_VOLUME_LOCAL:-./database/redis-data}:/data:Z
         networks:
-            - lara12net
+            - laranet
         healthcheck:
             test:
                 - CMD
@@ -69,9 +69,9 @@ services:
             MINIO_ROOT_USER: ${MINIO_ROOT_USER:-sail}
             MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-password}
         volumes:
-            - ${MINIO_VOLUME_LOCAL:-./storage/minio-data}:/data
+            - ${MINIO_VOLUME_LOCAL:-./storage/minio-data}:/data:Z
         networks:
-            - lara12net
+            - laranet
         command: minio server /data/minio --console-address ":${FORWARD_MINIO_CONSOLE_PORT}"
         healthcheck:
             test:
@@ -88,9 +88,9 @@ services:
             - ${FORWARD_MAILPIT_PORT:-1025}:1025
             - ${FORWARD_MAILPIT_DASHBOARD_PORT:-8025}:8025
         volumes:
-            - ${MP_VOLUME_LOCAL:-./storage/mail-data}:/data
+            - ${MP_VOLUME_LOCAL:-./storage/mail-data}:/data:Z
         networks:
-            - lara12net
+            - laranet
 networks:
-    lara12net:
+    laranet:
         driver: bridge
