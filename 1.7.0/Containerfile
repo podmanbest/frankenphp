@@ -1,0 +1,12 @@
+FROM quay.io/libpod/alpine:latest
+
+COPY install.sh /tmp/
+RUN apk add --no-cache curl
+RUN sh /tmp/install.sh
+RUN mkdir -p /var/www
+RUN mv /tmp/frankenphp /usr/local/bin/
+WORKDIR /var/www
+
+EXPOSE 80
+
+CMD ["frankenphp", "serve"]
